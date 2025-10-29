@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="apple_ui.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="dark-mode">
+  <header>
+    <nav class="navbar">
+      <a href="#" class="active">Dashboard</a>
+      <a href="#">Reports</a>
+      <a href="#" id="settings-button">Settings</a>
+      <div class="theme-switch-wrapper">
+        <i class="fas fa-sun"></i>
+        <label class="theme-switch" for="theme-toggle">
+          <input type="checkbox" id="theme-toggle" />
+          <div class="slider round"></div>
+        </label>
+        <i class="fas fa-moon"></i>
+      </div>
+      <a href="index copy.html" class="logout">Logout</a>
+    </nav>
+  </header>
+
+  <main class="main-container">
+    <div class="ag-format-container">
+      <div class="ag-courses_box">
+        <!-- 🌤️ WEATHER CARD -->
+        <div class="ag-courses_item" id="weather-card">
+          <div class="ag-courses-item_bg"></div>
+          <div class="ag-courses-item_title">
+            <i class="fas fa-cloud-sun"></i> เครื่อง No.1
+          </div>
+          <div class="ag-courses-item_date-box">เมือง: <span id="city">Loading...</span></div>
+          <div class="ag-courses-item_date-box">อุณหภูมิ: <span id="temperature">... °C</span></div>
+          <div class="ag-courses-item_date-box">สภาพอากาศ: <span id="weather-description">...</span></div>
+          <div class="ag-courses-item_date-box">ความชื้น: <span id="air-humidity">...</span></div>
+          <button onclick="window.location.href='apple_ui3admin.html'">
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Apple Inc. All rights reserved.</p>
+  </footer>
+
+<script>
+const WEATHER_API_KEY = '4dbc27312596168489e3c0398366f2d5';
+const city = 'Tha Muang';
+
+async function fetchWeatherData() {
+  try {
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${WEATHER_API_KEY}&units=metric&lang=th`);
+    if (!res.ok) throw new Error("Failed to fetch weather data");
+    return await res.json();
+  } catch (err) {
+    console.warn("Weather API error, using mock data");
+    return {
+      name: 'Bangkok (Mock)',
+      main: { temp: 32.5, humidity: 75 },
+      weather: [{ description: 'ท้องฟ้าแจ่มใส' }],
+    };
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  // 🌤️ โหลดข้อมูลอากาศ
+  const weather = await fetchWeatherData();
+  document.getElementById('city').textContent = weather.name;
+  document.getElementById('temperature').textContent = weather.main.temp + ' °C';
+  document.getElementById('weather-description').textContent = weather.weather[0].description;
+  document.getElementById('air-humidity').textContent = weather.main.humidity + ' %';
+
+  // ⚙️ ปุ่ม Settings ปรับ layout (อนาคตจะเพิ่มได้)
+  const settingsButton = document.getElementById('settings-button');
+  const containers = document.querySelectorAll('.ag-courses_box');
+  const sortables = Array.from(containers).map(c => new Sortable(c, { animation:150, ghostClass:'sortable-ghost', disabled:true }));
+  let editMode = false;
+  settingsButton.addEventListener('click', e => {
+    e.preventDefault();
+    editMode = !editMode;
+    document.body.classList.toggle('edit-mode', editMode);
+    settingsButton.textContent = editMode ? 'Save' : 'Settings';
+    sortables.forEach(s => s.option('disabled', !editMode));
+  });
+
+  // 🌗 Theme Switch
+  const themeToggle = document.getElementById('theme-toggle');
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    document.body.classList.add(savedTheme);
+    themeToggle.checked = savedTheme === 'light-mode';
+  }
+  themeToggle.addEventListener('change', function() {
+    if (this.checked) {
+      document.body.classList.replace('dark-mode','light-mode');
+      localStorage.setItem('theme','light-mode');
+    } else {
+      document.body.classList.replace('light-mode','dark-mode');
+      localStorage.setItem('theme','dark-mode');
+    }
+  });
+});
+</script>
+
+</body>
+</html>

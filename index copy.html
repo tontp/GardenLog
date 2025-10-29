@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <link rel="stylesheet" href="apple_ui.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .login-container {
+            background: rgba(28, 28, 30, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            padding: 40px;
+            border-radius: 20px;
+            width: 360px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .login-container h2 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            box-sizing: border-box; /* Important for padding */
+        }
+        .login-container input::placeholder {
+            color: #86868b;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background-color: #0071e3;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color .3s;
+        }
+        .login-container button:hover {
+            background-color: #0077ed;
+        }
+        .message {
+            margin-top: 15px;
+            color: #ff4d4d;
+            font-size: 14px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Sign In</h2>
+        <input type="text" id="username" placeholder="Username" />
+        <input type="password" id="password" placeholder="Password" />
+        <button onclick="login()">Sign In</button>
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+    function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const message = document.getElementById("message");
+
+        if (username === "admin" && password === "1234") {
+            localStorage.setItem("role", "admin");
+            window.location.href = "overall.html";
+        } else if (username === "member" && password === "1234") {
+            localStorage.setItem("role", "member");
+            window.location.href = "apple_ui3.html";
+        } else {
+            message.textContent = "Invalid username or password.";
+            const loginBox = document.querySelector('.login-container');
+            loginBox.style.animation = 'shake 0.5s';
+            setTimeout(() => loginBox.style.animation = '', 500);
+        }
+    }
+</script>
+</body>
+</html>
