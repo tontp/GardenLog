@@ -1,0 +1,54 @@
+| คำสั่ง        |    ความหมาย                                        | ตัวอย่าง    |
+| ----------- | ----------------------------------------------- | ----------- |
+|  help       | ดูคำสั่งทั้งหมด                                          | `help`      |
+|  forecast   | ดูพยากรณ์แบบละเอียด                                 | `forecast`  |
+|  status     | แสดงสถานะทั้งหมด (rain, soil, pump)                | `status`    |
+|  rain auto  | กลับไปใช้ค่าพยากรณ์จริงจาก API                        | `rain auto` |
+|  rain on    | จำลองว่าฝนกำลังจะตก (จะปิดปั๊ม)                        | `rain on`   |
+|  rain off   | จำลองว่าไม่มีฝน (จะเปิดปั๊มหากดินแห้ง)                    | `rain off`  |
+|  soil auto  | ใช้ค่าจริงจากเซนเซอร์ความชื้น                           | `soil auto` |
+|  soil dry   | จำลองว่าดินแห้ง (จะเปิดปั๊มหากไม่มีฝน)                    | `soil dry`  |
+|  soil wet   | จำลองว่าดินชื้น (จะปิดปั๊ม)                             | `soil wet`  |
+| water auto  | ใช้ค่าจริงจากเซนเซอร์น้ำ                               | water auto |
+| water ok    | จำลอง 'มีน้ำ'                                      | water on   |
+| water empty | จำลอง 'ไม่มีน้ำ'                                    | water off  |
+|  pump auto  | ให้ระบบควบคุมปั๊มอัตโนมัติตามเซนเซอร์และพยากรณ์            | `pump auto` |
+|  pump on    | เปิดปั๊มบังคับเอง (แม้ฝนจะตก/ดินชื้น)                     | `pump on`   |
+|  pump off   | ปิดปั๊มบังคับเอง                                      | `pump off`  |
+
+
+
+| ตัวแปร        | ความหมาย                                                                         |      ตัวอย่างค่า                     |
+| ----------- | -------------------------------------------------------------------------------- | -------------------------------- |
+| `POPmax`    | Probability of Precipitation — โอกาสฝนตกสูงสุดในช่วงที่ดู (0.0 = 0%, 1.0 = 100%)        | `0.00` หมายถึง ไม่มีโอกาสฝนตกเลย     |
+| `rain3hMax` | ปริมาณฝนสูงสุดในช่วง 3 ชั่วโมง (หน่วย mm)                                                | `0.00` หมายถึง ไม่มีฝนตกเลย         |
+| `rain`      | ตัวบูลีน (1 = มีฝน, 0 = ไม่มีฝน) ที่สรุปจากสองค่าข้างบน                                      | `0` หมายถึง “ไม่มีฝน”               |
+
+
+// ---------- Location ----------
+const float LAT = 14.0009, LON = 99.5398;
+
+
+เว็บพยากรอากาศที่ดึงค่ามาใช้ในโค้ด
+https://api.openweathermap.org/data/2.5/forecast?lat=14.0009&lon=99.5398&appid=35a9a4dc1f6261526fdbc03d4b7eb666&units=metric&lang=th
+
+
+
+เว็บที่จะส่งค่าจากจาก esp32  ขึ้น google sheet
+https://script.google.com/macros/s/AKfycbxt2P7NXmR5sxNPRS5gqZu7v_buCOka8PuQRnLu64NhPuQiLoEhjddaZw3WCoCuvgRlLw/exec
+
+const char* ssid     = "3BB-Fiber_Sarasawadee_2.4GHz";
+			AKE
+const char* password = "0816465141";
+			0908637046
+
+const char* API_KEY = "35a9a4dc1f6261526fdbc03d4b7eb666";
+
+const char* GSCRIPT_URL = "https://script.google.com/macros/s/AKfycbw5EzzEbt38WhpWfS1qa02Xr83ynFnBKyBX5PAp-9MUbHdbcAwA36KcGceuQvi2nFJqDw/exec";
+
+https://script.google.com/macros/s/AKfycbw5EzzEbt38WhpWfS1qa02Xr83ynFnBKyBX5PAp-9MUbHdbcAwA36KcGceuQvi2nFJqDw/exec?view=dashboard
+
+https://script.google.com/macros/s/AKfycbw5EzzEbt38WhpWfS1qa02Xr83ynFnBKyBX5PAp-9MUbHdbcAwA36KcGceuQvi2nFJqDw/exec?api=latest&limit=20
+
+
+
